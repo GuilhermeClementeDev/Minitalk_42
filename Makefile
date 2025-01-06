@@ -2,35 +2,51 @@
 
 CC = cc
 
-NAME = test.a
+CFLAGS = -Wall -Wextra -Werror
 
 LIBFTNAME = libft.a
 
-MY_SOURCES =
+CLIENT= client.c
+SERVER= server.c
 
-CFLAGS = -Wall -Wextra -Werror
+CLIENT_OBJS= $(CLIENT:.c=.o)
+SERVER_OBJS= $(SERVER:.c=.o)
 
-OBJ = $(MY_SOURCES:.c=.o)
+CLIENT_BONUS= client_bonus.c
+SERVER_BONUS= server_bonus.c
 
-all: $(NAME)
+CLIENT_BONUS_OBJS= $(CLIENT_BONUS:.c=.o)
+SERVER_BONUS_OBJS= $(SERVER_BONUS:.c=.o)
+
+all: server client
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 makelib:
-	make -C ./lib
+	@make -C ./lib
 	@cp ./lib/$(LIBFTNAME) .
-	@mv $(LIBFTNAME) $(NAME)
 
-$(NAME): $(OBJ) makelib
-	ar -rcs $(NAME) $(OBJ)
+client: $(CLIENT_OBJS) makelib
+	$(CC) $(CFLAGS) $(CLIENT_OBJS) $(LIBFTNAME) -o client
+
+server: $(SERVER_OBJS) makelib
+	$(CC) $(CFLAGS) $(SERVER_OBJS) $(LIBFTNAME) -o server
+
+client_bonus: $(CLIENT_BONUS_OBJS) makelib
+	$(CC) $(CFLAGS) $(CLIENT_BONUS_OBJS) $(LIBFTNAME) -o client_bonus
+
+server_bonus: $(SERVER_BONUS_OBJS) makelib
+	$(CC) $(CFLAGS) $(SERVER_BONUS_OBJS) $(LIBFTNAME) -o server_bonus
+
+bonus: client_bonus server_bonus
 
 clean:
-	@rm -f $(OBJ)
+	@rm -f $(CLIENT_OBJS) $(SERVER_OBJS) $(CLIENT_BONUS_OBJS) $(SERVER_BONUS_OBJS)
 	cd ./lib && make clean
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(LIBFTNAME) client server client_bonus server_bonus
 	cd ./lib && make fclean
 
 re: fclean all
