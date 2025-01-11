@@ -1,7 +1,7 @@
 #include "./lib/libft.h"
 #include <signal.h>
 
-int	ft_pow(int elev)
+static int	ft_pow(int elev)
 {
 	int	i;
 	int	num;
@@ -18,10 +18,10 @@ int	ft_pow(int elev)
 	return (num);
 }
 
-void	ft_decrypt(char *arr)
+static void	ft_decrypt(char *arr)
 {
 	int	i;
-	int num;
+	int	num;
 
 	num = 0;
 	i = 0;
@@ -32,37 +32,35 @@ void	ft_decrypt(char *arr)
 		i++;
 	}
 	ft_printf("%c", num);
-
 }
 
-void	mensage(int signum)
+static void	mensage(int signum)
 {
-	int	position_bit;
+	int			k;
 	static char	binary[9];
 
-	position_bit = 0;
-	if (binary[position_bit] != '1' && binary[position_bit] != '0')
+	k = 0;
+	if (binary[k] != '1' && binary[k] != '0')
 		ft_bzero(binary, 9);
-	while ((binary[position_bit] == '1' || binary[position_bit] == '0') && position_bit < 7)
-		position_bit++;
+	while ((binary[k] == '1' || binary[k] == '0') && k < 7)
+		k++;
 	if (signum == SIGUSR1)
-		binary[position_bit] = '1';
+		binary[k] = '1';
 	else if (signum == SIGUSR2)
-		binary[position_bit] = '0';
-
-	position_bit++;
-	if (position_bit == 8)
+		binary[k] = '0';
+	k++;
+	if (k == 8)
 	{
 		ft_decrypt(binary);
 		ft_bzero(binary, 9);
 	}
 }
 
-int main()
+int	main(void)
 {
 	ft_printf("Server PID %d\n", getpid());
 	signal(SIGUSR1, mensage);
 	signal(SIGUSR2, mensage);
-	while(1)
+	while (1)
 		pause();
 }
