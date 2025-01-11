@@ -1,11 +1,10 @@
 Rever o pdf
 
-basics done
+basic:
+	tem q ver o bglh da statica
+	o bglh de pular linha (extra)
 
-Colocar na Norma
+bonus:
+	pegar oq tem q ter no pdf
+	norma
 
-relação bits
-
-norma
-
-bonus

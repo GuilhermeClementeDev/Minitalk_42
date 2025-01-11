@@ -40,6 +40,7 @@ static void	mensage(int signum)
 	static char	binary[9];
 
 	k = 0;
+	// Tenho que pensar nisso, pode vir com lixo de memoria
 	if (binary[k] != '1' && binary[k] != '0')
 		ft_bzero(binary, 9);
 	while ((binary[k] == '1' || binary[k] == '0') && k < 7)
