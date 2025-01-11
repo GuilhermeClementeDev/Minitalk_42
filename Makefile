@@ -1,5 +1,7 @@
 # -*- MakeFile -*-
 
+NAME = minitalk
+
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
@@ -18,7 +20,9 @@ SERVER_BONUS= server_bonus.c
 CLIENT_BONUS_OBJS= $(CLIENT_BONUS:.c=.o)
 SERVER_BONUS_OBJS= $(SERVER_BONUS:.c=.o)
 
-all: makelib server client
+all: $(NAME)
+
+$(NAME): makelib server client
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)

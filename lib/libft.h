@@ -109,18 +109,18 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-int	ft_printf(const char *s, ...);
+int		ft_printf(const char *s, ...);
 
-int	ft_printf_char(char c);
+int		ft_printf_char(char c);
 
-int	ft_printf_string(char *s);
+int		ft_printf_string(char *s);
 
-int	ft_printf_number(int nb);
+int		ft_printf_number(int nb);
 
-int	ft_printf_unsigned_num(unsigned int nb);
+int		ft_printf_unsigned_num(unsigned int nb);
 
-int	ft_printf_hex(unsigned int nb, int c);
+int		ft_printf_hex(unsigned int nb, int c);
 
-int	ft_printf_pointer(unsigned long nb);
+int		ft_printf_pointer(unsigned long nb);
 
 #endif
