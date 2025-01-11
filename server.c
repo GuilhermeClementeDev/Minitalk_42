@@ -15,19 +15,19 @@ int	ft_pow(int elev)
 		num = num * 2;
 		i++;
 	}
-	return num;
+	return (num);
 }
 
-void	ft_decrypt(int *arr)
+void	ft_decrypt(char *arr)
 {
 	int	i;
 	int num;
 
 	num = 0;
 	i = 0;
-	while (i < 8)
+	while (arr[i])
 	{
-		if (arr[i] == 1)
+		if (arr[i] == '1')
 			num += ft_pow(7 - i);
 		i++;
 	}
@@ -35,41 +35,34 @@ void	ft_decrypt(int *arr)
 
 }
 
-void	mensage(int sig, siginfo_t	*siginfo, void *context)
+void	mensage(int signum)
 {
-	static int	position_bit = 0;
-	static int	binary[8];
+	int	position_bit;
+	static char	binary[9];
 
-	(void)context;
-	if (sig == SIGUSR1)
-	{
-		binary[position_bit] = 1;
-		kill(siginfo->si_pid, SIGUSR1);
-	}
-	else
-	{
-		binary[position_bit] = 0;
-		kill(siginfo->si_pid, SIGUSR1);
-	}
+	position_bit = 0;
+	if (binary[position_bit] != '1' && binary[position_bit] != '0')
+		ft_bzero(binary, 9);
+	while ((binary[position_bit] == '1' || binary[position_bit] == '0') && position_bit < 7)
+		position_bit++;
+	if (signum == SIGUSR1)
+		binary[position_bit] = '1';
+	else if (signum == SIGUSR2)
+		binary[position_bit] = '0';
+
 	position_bit++;
 	if (position_bit == 8)
 	{
 		ft_decrypt(binary);
-		position_bit = 0;
+		ft_bzero(binary, 9);
 	}
 }
 
 int main()
 {
-	struct sigaction	st;
-
-	sigemptyset(&st.sa_mask);
-	st.sa_sigaction = &mensage;
-	st.sa_flags = SA_SIGINFO;
-
 	ft_printf("Server PID %d\n", getpid());
-	sigaction(SIGUSR1, &st, NULL);
-	sigaction(SIGUSR2, &st, NULL);
+	signal(SIGUSR1, mensage);
+	signal(SIGUSR2, mensage);
 	while(1)
 		pause();
 }

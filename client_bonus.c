@@ -1,6 +1,12 @@
 #include "./lib/libft.h"
 #include <signal.h>
 
+static void	handler_bit(int signum)
+{
+	(void)signum;
+	ft_printf("bit OK!\n");
+}
+
 static void	ft_send(int pid, int *binary)
 {
 	int	i;
@@ -12,7 +18,7 @@ static void	ft_send(int pid, int *binary)
 			kill(pid, SIGUSR1);
 		else if (binary[i] == 0)
 			kill(pid, SIGUSR2);
-		usleep(500);
+		pause();
 		i++;
 	}
 }
@@ -45,6 +51,7 @@ int main(int argc, char **argv)
 
 	if (argc == 3)
 	{
+		signal(SIGUSR1, handler_bit);
 		pid = ft_atoi(argv[1]);
 		ft_mensage (pid, argv[2]);
 	}
