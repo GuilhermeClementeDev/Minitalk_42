@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: guclemen <guclemen@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 08:16:25 by guclemen          #+#    #+#             */
+/*   Updated: 2025/01/15 08:16:28 by guclemen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./lib/libft.h"
 #include <signal.h>
 
@@ -18,42 +30,39 @@ static int	ft_pow(int elev)
 	return (num);
 }
 
-static void	ft_decrypt(char *arr)
+void	ft_decrypt(int *arr)
 {
-	int	i;
-	int	num;
+	int				i;
+	unsigned int	num;
 
 	num = 0;
 	i = 0;
-	while (arr[i])
+	while (i < 8)
 	{
-		if (arr[i] == '1')
+		if (arr[i] == 1)
 			num += ft_pow(7 - i);
 		i++;
 	}
-	ft_printf("%c", num);
+	if (num == 0)
+		write(1, "\n", 1);
+	else
+		write(1, &num, 1);
 }
 
-static void	mensage(int signum)
+static void	mensage(int sig)
 {
-	int			k;
-	static char	binary[9];
+	static int	position_bit = 0;
+	static int	binary[8];
 
-	k = 0;
-	// Tenho que pensar nisso, pode vir com lixo de memoria
-	if (binary[k] != '1' && binary[k] != '0')
-		ft_bzero(binary, 9);
-	while ((binary[k] == '1' || binary[k] == '0') && k < 7)
-		k++;
-	if (signum == SIGUSR1)
-		binary[k] = '1';
-	else if (signum == SIGUSR2)
-		binary[k] = '0';
-	k++;
-	if (k == 8)
+	if (sig == SIGUSR1)
+		binary[position_bit] = 1;
+	else if (sig == SIGUSR2)
+		binary[position_bit] = 0;
+	position_bit++;
+	if (position_bit == 8)
 	{
 		ft_decrypt(binary);
-		ft_bzero(binary, 9);
+		position_bit = 0;
 	}
 }
 

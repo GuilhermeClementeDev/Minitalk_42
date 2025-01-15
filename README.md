@@ -2,13 +2,11 @@ Rever o pdf
 
 basic:
 
-	tem q ver o bglh da statica
- 
-	o bglh de pular linha (extra)
+	Na teoria tudo certo, so fazer testes antes de enviar
 
 bonus:
 
-	pegar oq tem q ter no pdf
- 
 	norma
+	mudar a maneira da comunicação
+	teste
 

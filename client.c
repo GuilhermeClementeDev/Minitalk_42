@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: guclemen <guclemen@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 08:15:28 by guclemen          #+#    #+#             */
+/*   Updated: 2025/01/15 08:15:31 by guclemen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./lib/libft.h"
 #include <signal.h>
 
@@ -19,24 +31,29 @@ static void	ft_send(int pid, int *binary)
 
 static void	ft_mensage(int pid, char *str)
 {
-	int	i;
-	int	k;
-	int	binary[8];
+	int				i;
+	int				k;
+	int				binary[8];
+	unsigned char	c;
 
 	i = 0;
 	while (str[i])
 	{
 		k = 8;
+		c = str[i];
 		while (k > 0)
 		{
-			binary[k - 1] = str[i] % 2;
-			str[i] /= 2;
+			binary[k - 1] = c % 2;
+			c /= 2;
 			k--;
 		}
 		ft_send(pid, binary);
 		i++;
 	}
-	ft_printf("message sent!\n");
+	k = 0;
+	while (k < 8)
+		binary[k++] = 0;
+	ft_send(pid, binary);
 }
 
 int	main(int argc, char **argv)
