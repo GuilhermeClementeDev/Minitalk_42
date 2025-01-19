@@ -53,7 +53,8 @@ static void	ft_mensage(int pid, char *str)
 	k = 0;
 	while (k < 8)
 		binary[k++] = 0;
-	ft_send(pid, binary);
+	if (str[0])
+		ft_send(pid, binary);
 }
 
 int	main(int argc, char **argv)
