@@ -1,4 +1,4 @@
-Rever o pdf
+Revisar ambos antes de entregar:
 
 basic:
 
@@ -6,7 +6,4 @@ basic:
 
 bonus:
 
-	norma
-	mudar a maneira da comunicação
-	teste
-
+	Norma

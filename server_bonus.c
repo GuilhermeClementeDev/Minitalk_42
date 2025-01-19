@@ -18,10 +18,10 @@ int	ft_pow(int elev)
 	return num;
 }
 
-void	ft_decrypt(int *arr)
+int	ft_decrypt(int *arr)
 {
-	int	i;
-	int num;
+	int				i;
+	unsigned int	num;
 
 	num = 0;
 	i = 0;
@@ -31,8 +31,14 @@ void	ft_decrypt(int *arr)
 			num += ft_pow(7 - i);
 		i++;
 	}
-	ft_printf("%c", num);
-
+	if (num == 0)
+	{
+		write(1, "\n", 1);
+		return (1);
+	}
+	else
+		write(1, &num, 1);
+	return (0);
 }
 
 void	mensage(int sig, siginfo_t	*siginfo, void *context)
@@ -42,21 +48,17 @@ void	mensage(int sig, siginfo_t	*siginfo, void *context)
 
 	(void)context;
 	if (sig == SIGUSR1)
-	{
 		binary[position_bit] = 1;
-		kill(siginfo->si_pid, SIGUSR1);
-	}
 	else
-	{
 		binary[position_bit] = 0;
-		kill(siginfo->si_pid, SIGUSR1);
-	}
 	position_bit++;
 	if (position_bit == 8)
 	{
-		ft_decrypt(binary);
+		if (ft_decrypt(binary))
+			kill(siginfo->si_pid, SIGUSR2);
 		position_bit = 0;
 	}
+	kill(siginfo->si_pid, SIGUSR1);
 }
 
 int main()

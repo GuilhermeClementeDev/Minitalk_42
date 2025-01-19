@@ -3,8 +3,8 @@
 
 static void	handler_bit(int signum)
 {
-	(void)signum;
-	ft_printf("bit OK!\n");
+	if (signum == SIGUSR2)
+		ft_printf("Mensage Recevied from server !!!\n");
 }
 
 static void	ft_send(int pid, int *binary)
@@ -25,24 +25,30 @@ static void	ft_send(int pid, int *binary)
 
 static void	ft_mensage(int pid,char *str)
 {
-	int	i;
-	int	k;
-	int	binary[8];
+	int				i;
+	int				k;
+	int				binary[8];
+	unsigned char	c;
 
 	i = 0;
 	while (str[i])
 	{
 		k = 8;
+		c = str[i];
 		while (k > 0)
 		{
-			binary[k - 1] = str[i] % 2;
-			str[i] /= 2;
+			binary[k - 1] = c % 2;
+			c /= 2;
 			k--;
 		}
 		ft_send(pid, binary);
 		i++;
 	}
-	ft_printf("message sent!\n");
+	k = 0;
+	while (k < 8)
+		binary[k++] = 0;
+	if (str[0])
+		ft_send(pid, binary);
 }
 
 int main(int argc, char **argv)
@@ -52,6 +58,7 @@ int main(int argc, char **argv)
 	if (argc == 3)
 	{
 		signal(SIGUSR1, handler_bit);
+		signal(SIGUSR2, handler_bit);
 		pid = ft_atoi(argv[1]);
 		ft_mensage (pid, argv[2]);
 	}
