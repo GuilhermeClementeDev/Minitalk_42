@@ -1,7 +1,7 @@
 #include "./lib/libft.h"
 #include <signal.h>
 
-int	ft_pow(int elev)
+static int	ft_pow(int elev)
 {
 	int	i;
 	int	num;
@@ -18,7 +18,7 @@ int	ft_pow(int elev)
 	return (num);
 }
 
-int	ft_decrypt(int *arr)
+static int	ft_decrypt(int *arr)
 {
 	int				i;
 	unsigned int	num;
