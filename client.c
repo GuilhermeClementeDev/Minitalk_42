@@ -13,18 +13,28 @@
 #include "./lib/libft.h"
 #include <signal.h>
 
+static void	ft_kill_error(void)
+{
+	ft_printf("Error Kill\n");
+	exit(1);
+}
+
 static void	ft_send(int pid, int *binary)
 {
 	int	i;
+	int	error;
 
 	i = 0;
+	error = 0;
 	while (i < 8)
 	{
 		if (binary[i] == 1)
-			kill(pid, SIGUSR1);
+			error = kill(pid, SIGUSR1);
 		else if (binary[i] == 0)
-			kill(pid, SIGUSR2);
-		usleep(500);
+			error = kill(pid, SIGUSR2);
+		if (error != 0)
+			ft_kill_error();
+		usleep(300);
 		i++;
 	}
 }
@@ -64,6 +74,11 @@ int	main(int argc, char **argv)
 	if (argc == 3)
 	{
 		pid = ft_atoi(argv[1]);
+		if (pid <= 0)
+		{
+			ft_printf("Ivalid PID!\n");
+			return (1);
+		}
 		ft_mensage (pid, argv[2]);
 	}
 	else

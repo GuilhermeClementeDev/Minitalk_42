@@ -30,7 +30,7 @@ static int	ft_pow(int elev)
 	return (num);
 }
 
-void	ft_decrypt(int *arr)
+static void	ft_decrypt(int *arr)
 {
 	int				i;
 	unsigned int	num;
