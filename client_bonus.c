@@ -23,7 +23,7 @@ static void	ft_send(int pid, int *binary)
 	}
 }
 
-static void	ft_mensage(int pid,char *str)
+static void	ft_mensage(int pid, char *str)
 {
 	int				i;
 	int				k;
@@ -51,9 +51,9 @@ static void	ft_mensage(int pid,char *str)
 		ft_send(pid, binary);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int pid;
+	int	pid;
 
 	if (argc == 3)
 	{

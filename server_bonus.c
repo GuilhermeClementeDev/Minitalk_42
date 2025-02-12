@@ -15,7 +15,7 @@ int	ft_pow(int elev)
 		num = num * 2;
 		i++;
 	}
-	return num;
+	return (num);
 }
 
 int	ft_decrypt(int *arr)
@@ -61,17 +61,16 @@ void	mensage(int sig, siginfo_t	*siginfo, void *context)
 	kill(siginfo->si_pid, SIGUSR1);
 }
 
-int main()
+int	main(void)
 {
 	struct sigaction	st;
 
 	sigemptyset(&st.sa_mask);
 	st.sa_sigaction = &mensage;
 	st.sa_flags = SA_SIGINFO;
-
 	ft_printf("Server PID %d\n", getpid());
 	sigaction(SIGUSR1, &st, NULL);
 	sigaction(SIGUSR2, &st, NULL);
-	while(1)
+	while (1)
 		pause();
 }
